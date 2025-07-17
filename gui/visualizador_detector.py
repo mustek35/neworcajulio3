@@ -213,35 +213,37 @@ class VisualizadorDetector(QObject):
                 logger.error("%s: error procesando frame en on_frame: %s", self.objectName(), e)
 
     def _qimage_from_frame(self, frame: QVideoFrame) -> QImage | None:
-        if frame.map(QVideoFrame.MapMode.ReadOnly):
-            try:
-                pf = frame.pixelFormat()
-                rgb_formats = {
-                    getattr(QVideoFrameFormat.PixelFormat, name)
-                    for name in [
-                        "Format_RGB24",
-                        "Format_RGB32",
-                        "Format_BGR24",
-                        "Format_BGR32",
-                        "Format_RGBX8888",
-                        "Format_RGBA8888",
-                        "Format_BGRX8888",
-                        "Format_BGRA8888",
-                        "Format_ARGB32",
-                    ]
-                    if hasattr(QVideoFrameFormat.PixelFormat, name)
-                }
-                if pf in rgb_formats:
-                    img_format = QVideoFrameFormat.imageFormatFromPixelFormat(pf)
-                    if img_format != QImage.Format.Format_Invalid:
-                        return QImage(
-                            frame.bits(),
-                            frame.width(),
-                            frame.height(),
-                            frame.bytesPerLine(),
-                            img_format,
-                        ).copy()
-            finally:
-                frame.unmap()
-        image = frame.toImage()
-        return image if not image.isNull() else None
+        if not frame.map(QVideoFrame.MapMode.ReadOnly):
+            image = frame.toImage()
+            return image if not image.isNull() else None
+
+        try:
+            pf = frame.pixelFormat()
+            rgb_formats = {
+                getattr(QVideoFrameFormat.PixelFormat, name)
+                for name in [
+                    "Format_RGB24",
+                    "Format_RGB32",
+                    "Format_BGR24",
+                    "Format_BGR32",
+                    "Format_RGBX8888",
+                    "Format_RGBA8888",
+                    "Format_BGRX8888",
+                    "Format_BGRA8888",
+                    "Format_ARGB32",
+                ]
+                if hasattr(QVideoFrameFormat.PixelFormat, name)
+            }
+            if pf in rgb_formats:
+                img_format = QVideoFrameFormat.imageFormatFromPixelFormat(pf)
+                if img_format != QImage.Format.Format_Invalid:
+                    return QImage(
+                        frame.bits(),
+                        frame.width(),
+                        frame.height(),
+                        frame.bytesPerLine(),
+                        img_format,
+                    ).copy()
+            return None
+        finally:
+            frame.unmap()
