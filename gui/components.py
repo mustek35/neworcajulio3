@@ -110,29 +110,7 @@ class MainGUI(QMainWindow):
         self.media_player.play()
 
     def manejar_frame_video(self, frame):
-        if not frame.isValid():
-            return
-
-        image = None
-        if frame.map(QVideoFrame.MapMode.ReadOnly):
-            try:
-                pf = frame.pixelFormat()
-                img_format = QVideoFrameFormat.imageFormatFromPixelFormat(pf)
-                if img_format != QImage.Format.Format_Invalid:
-                    image = QImage(
-                        frame.bits(),
-                        frame.width(),
-                        frame.height(),
-                        frame.bytesPerLine(),
-                        img_format,
-                    ).copy()
-            finally:
-                frame.unmap()
-
-        if image is None:
+        if frame.isValid():
             image = frame.toImage()
-            if image.isNull():
-                return
-
-        pixmap = QPixmap.fromImage(image)
-        self.video_widget1.setPixmap(pixmap)
+            pixmap = QPixmap.fromImage(image)
+            self.video_widget1.setPixmap(pixmap)
