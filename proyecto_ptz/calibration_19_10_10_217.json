@@ -1,0 +1,340 @@
+{
+  "calibration_info": {
+    "camera_ip": "19.10.10.217",
+    "camera_model": "Hikvision PTZ",
+    "firmware_version": "V5.7.0",
+    "calibration_date": "2024-12-19",
+    "calibration_version": "1.0.0",
+    "calibrated_by": "Sistema PTZ Profesional",
+    "notes": "Calibración inicial para seguimiento de embarcaciones en puerto"
+  },
+  
+  "pan_range": {
+    "min": -1.0,
+    "max": 1.0,
+    "description": "Rango de paneo en coordenadas normalizadas (-1.0 = máximo izquierda, 1.0 = máximo derecha)",
+    "physical_degrees": {
+      "min": -180.0,
+      "max": 180.0,
+      "total_range": 360.0
+    }
+  },
+  
+  "tilt_range": {
+    "min": -1.0,
+    "max": 1.0,
+    "description": "Rango de inclinación en coordenadas normalizadas (-1.0 = máximo abajo, 1.0 = máximo arriba)",
+    "physical_degrees": {
+      "min": -90.0,
+      "max": 90.0,
+      "total_range": 180.0
+    }
+  },
+  
+  "zoom_range": {
+    "min": 0.0,
+    "max": 1.0,
+    "description": "Rango de zoom (0.0 = zoom mínimo/wide, 1.0 = zoom máximo/tele)",
+    "optical_zoom": {
+      "min_focal_length": 4.8,
+      "max_focal_length": 120.0,
+      "zoom_ratio": "25x"
+    }
+  },
+  
+  "field_of_view": {
+    "horizontal_degrees": 62.2,
+    "vertical_degrees": 34.9,
+    "diagonal_degrees": 71.0,
+    "description": "Campo de visión en posición wide (zoom mínimo)",
+    "zoom_dependent": {
+      "wide_angle": {
+        "horizontal": 62.2,
+        "vertical": 34.9,
+        "zoom_position": 0.0
+      },
+      "telephoto": {
+        "horizontal": 2.5,
+        "vertical": 1.4,
+        "zoom_position": 1.0
+      }
+    }
+  },
+  
+  "center_offset": {
+    "pan": 0.0,
+    "tilt": 0.0,
+    "description": "Offset del centro mecánico respecto al centro óptico",
+    "notes": "Ajustar si la cámara no centra correctamente en posición (0,0)"
+  },
+  
+  "movement_scaling": {
+    "pan_factor": 1.0,
+    "tilt_factor": 1.0,
+    "zoom_factor": 1.0,
+    "description": "Factores de escalamiento para ajustar sensibilidad de movimiento",
+    "notes": "Valores > 1.0 = más sensible, valores < 1.0 = menos sensible"
+  },
+  
+  "limits": {
+    "max_pan_speed": 0.8,
+    "max_tilt_speed": 0.8,
+    "max_zoom_speed": 0.5,
+    "description": "Velocidades máximas permitidas para cada eje",
+    "safe_speeds": {
+      "pan_safe": 0.3,
+      "tilt_safe": 0.3,
+      "zoom_safe": 0.2
+    }
+  },
+  
+  "target_object_ratio": 0.25,
+  "description_target_ratio": "Ratio objetivo del objeto en el frame (0.25 = 25% del ancho del frame)",
+  
+  "physical_constraints": {
+    "mechanical_limits": {
+      "pan_limit_left": -180.0,
+      "pan_limit_right": 180.0,
+      "tilt_limit_up": 90.0,
+      "tilt_limit_down": -90.0
+    },
+    "forbidden_zones": [
+      {
+        "name": "structure_obstruction",
+        "pan_min": -10.0,
+        "pan_max": 10.0,
+        "tilt_min": 85.0,
+        "tilt_max": 90.0,
+        "description": "Zona de obstrucción por estructura"
+      }
+    ],
+    "preferred_zones": [
+      {
+        "name": "harbor_main",
+        "pan_min": -60.0,
+        "pan_max": 60.0,
+        "tilt_min": -30.0,
+        "tilt_max": 30.0,
+        "priority": "high",
+        "description": "Zona principal del puerto"
+      }
+    ]
+  },
+  
+  "environmental_factors": {
+    "installation_height": 25.0,
+    "installation_height_unit": "meters",
+    "typical_target_distance": 500.0,
+    "typical_target_distance_unit": "meters",
+    "wind_exposure": "high",
+    "vibration_dampening": true,
+    "weather_protection": "ip66"
+  },
+  
+  "coordinate_system": {
+    "origin": "camera_center",
+    "pan_positive_direction": "right",
+    "tilt_positive_direction": "up",
+    "coordinate_frame": "camera_relative",
+    "reference_north": 0.0,
+    "magnetic_declination": -2.3
+  },
+  
+  "pixel_to_degree_conversion": {
+    "pixels_per_degree_pan": {
+      "wide_angle": 30.9,
+      "telephoto": 768.0,
+      "formula": "frame_width / horizontal_fov_degrees"
+    },
+    "pixels_per_degree_tilt": {
+      "wide_angle": 30.9,
+      "telephoto": 771.4,
+      "formula": "frame_height / vertical_fov_degrees"
+    },
+    "zoom_scaling_factor": {
+      "description": "Factor que relaciona el zoom con la escala píxel/grado",
+      "formula": "1 + (zoom_position * (max_zoom_ratio - 1))"
+    }
+  },
+  
+  "motion_characteristics": {
+    "acceleration_time": {
+      "pan": 0.5,
+      "tilt": 0.5,
+      "zoom": 0.3,
+      "unit": "seconds"
+    },
+    "deceleration_time": {
+      "pan": 0.3,
+      "tilt": 0.3,
+      "zoom": 0.2,
+      "unit": "seconds"
+    },
+    "settling_time": {
+      "pan": 0.2,
+      "tilt": 0.2,
+      "zoom": 0.1,
+      "unit": "seconds",
+      "description": "Tiempo para estabilizarse después del movimiento"
+    },
+    "minimum_movement": {
+      "pan": 0.001,
+      "tilt": 0.001,
+      "zoom": 0.005,
+      "description": "Movimiento mínimo detectable"
+    }
+  },
+  
+  "tracking_performance": {
+    "response_time": {
+      "typical": 0.8,
+      "best_case": 0.5,
+      "worst_case": 1.5,
+      "unit": "seconds",
+      "description": "Tiempo de respuesta para comandos PTZ"
+    },
+    "tracking_accuracy": {
+      "pan": 0.1,
+      "tilt": 0.1,
+      "unit": "degrees",
+      "description": "Precisión típica del seguimiento"
+    },
+    "maximum_tracking_speed": {
+      "pan": 120.0,
+      "tilt": 90.0,
+      "unit": "degrees_per_second",
+      "description": "Velocidad máxima de seguimiento"
+    }
+  },
+  
+  "auto_calibration": {
+    "enabled": false,
+    "last_calibration": "2024-12-19T10:00:00Z",
+    "calibration_interval_days": 30,
+    "auto_calibration_points": [
+      {
+        "name": "center",
+        "pan": 0.0,
+        "tilt": 0.0,
+        "zoom": 0.5
+      },
+      {
+        "name": "horizon_left",
+        "pan": -0.5,
+        "tilt": 0.0,
+        "zoom": 0.3
+      },
+      {
+        "name": "horizon_right",
+        "pan": 0.5,
+        "tilt": 0.0,
+        "zoom": 0.3
+      },
+      {
+        "name": "sky_reference",
+        "pan": 0.0,
+        "tilt": 0.3,
+        "zoom": 0.2
+      }
+    ]
+  },
+  
+  "image_correction": {
+    "lens_distortion": {
+      "enabled": false,
+      "k1": 0.0,
+      "k2": 0.0,
+      "p1": 0.0,
+      "p2": 0.0,
+      "description": "Coeficientes de corrección de distorsión de lente"
+    },
+    "geometric_correction": {
+      "enabled": false,
+      "rotation_correction": 0.0,
+      "scale_x": 1.0,
+      "scale_y": 1.0
+    }
+  },
+  
+  "network_characteristics": {
+    "typical_latency": 50,
+    "typical_latency_unit": "milliseconds",
+    "bandwidth_usage": {
+      "control_commands": "1 kbps",
+      "status_updates": "0.5 kbps"
+    },
+    "connection_stability": "excellent",
+    "packet_loss_tolerance": 0.01
+  },
+  
+  "maintenance_history": [
+    {
+      "date": "2024-12-19",
+      "type": "initial_calibration",
+      "performed_by": "Sistema PTZ Profesional",
+      "notes": "Calibración inicial del sistema",
+      "values_changed": ["field_of_view", "center_offset", "movement_scaling"]
+    }
+  ],
+  
+  "validation_tests": {
+    "last_test_date": "2024-12-19",
+    "test_results": {
+      "precision_test": {
+        "passed": true,
+        "average_error": 0.05,
+        "max_error": 0.12,
+        "unit": "degrees"
+      },
+      "speed_test": {
+        "passed": true,
+        "average_response_time": 0.8,
+        "max_response_time": 1.2,
+        "unit": "seconds"
+      },
+      "stability_test": {
+        "passed": true,
+        "drift_rate": 0.01,
+        "unit": "degrees_per_hour"
+      }
+    }
+  },
+  
+  "custom_settings": {
+    "harbor_specific": {
+      "tide_compensation": false,
+      "wind_compensation": false,
+      "boat_size_categories": {
+        "small": {
+          "min_pixels": 50,
+          "max_pixels": 200,
+          "tracking_strategy": "precise"
+        },
+        "medium": {
+          "min_pixels": 200,
+          "max_pixels": 500,
+          "tracking_strategy": "balanced"
+        },
+        "large": {
+          "min_pixels": 500,
+          "max_pixels": 2000,
+          "tracking_strategy": "smooth"
+        }
+      }
+    },
+    "weather_adaptations": {
+      "fog_mode": {
+        "confidence_threshold": 0.8,
+        "movement_speed_reduction": 0.5
+      },
+      "rain_mode": {
+        "confidence_threshold": 0.7,
+        "stability_frames_increase": 2
+      },
+      "wind_mode": {
+        "position_tolerance_increase": 1.5,
+        "movement_smoothing": true
+      }
+    }
+  }
+}

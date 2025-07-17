@@ -1,0 +1,12 @@
+{
+    "camera_ip": "19.10.10.217",
+    "center_offset_x": -0.007,
+    "center_offset_y": 0.0,
+    "pan_direction": 1,
+    "tilt_direction": 1,
+    "pan_sensitivity": 0.005,
+    "tilt_sensitivity": 0.005,
+    "deadzone_x": 0.03,
+    "deadzone_y": 0.03,
+    "calibration_date": ""
+}

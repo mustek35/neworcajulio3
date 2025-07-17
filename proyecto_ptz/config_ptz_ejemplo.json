@@ -1,0 +1,39 @@
+{
+    "camaras": [
+        {
+            "ip": "192.168.1.100",
+            "puerto": 80,
+            "usuario": "admin",
+            "contrasena": "admin123",
+            "tipo": "ptz",
+            "nombre": "PTZ Cam 1",
+            "modelos": [
+                "Personas",
+                "Embarcaciones"
+            ],
+            "conf": 0.3,
+            "imgsz": 640,
+            "device": "cuda",
+            "rtsp_url": "rtsp://admin:admin123@192.168.1.100:554/cam/realmonitor?channel=1&subtype=0",
+            "preset_inicial": "1",
+            "seguimiento_config": {
+                "modo": "maritime_standard",
+                "auto_zoom": true,
+                "alternancia": true,
+                "tiempo_seguimiento": 5.0
+            }
+        }
+    ],
+    "configuracion_ptz": {
+        "fps_global": {
+            "visual_fps": 25,
+            "detection_fps": 8,
+            "ui_update_fps": 15
+        },
+        "sistema_ptz": {
+            "auto_iniciar": true,
+            "config_predefinida": "maritime_standard",
+            "debug_activo": true
+        }
+    }
+}

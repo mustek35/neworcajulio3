@@ -1,0 +1,414 @@
+{
+  "config_info": {
+    "version": "1.0.0",
+    "description": "Configuración de cámaras PTZ para el sistema profesional",
+    "last_updated": "2024-12-19",
+    "author": "Sistema PTZ Profesional"
+  },
+  
+  "global_settings": {
+    "default_frame_size": [1920, 1080],
+    "log_level": "INFO",
+    "statistics_interval": 30,
+    "backup_position_interval": 300,
+    "auto_connect_on_startup": true,
+    "max_connection_retries": 3,
+    "connection_timeout": 10.0,
+    "movement_timeout": 5.0,
+    "health_check_interval": 60,
+    "export_stats_interval": 3600,
+    "wsdl_directory": "wsdl/",
+    "logs_directory": "logs/",
+    "calibration_directory": "./"
+  },
+
+  "cameras": [
+    {
+      "id": "ptz_main",
+      "ip": "19.10.10.217",
+      "puerto": 80,
+      "usuario": "admin",
+      "contrasena": "admin123",
+      "nombre": "PTZ Principal",
+      "tipo": "ptz",
+      "modelo": "Hikvision PTZ",
+      "ubicacion": "Puerto Principal",
+      "zona_cobertura": "Bahía Norte",
+      "descripcion": "Cámara PTZ principal para seguimiento de embarcaciones en la bahía norte",
+      "activa": true,
+      "prioridad": 1,
+      
+      "config_personalizada": {
+        "confirmation_frames": 3,
+        "confirmation_timeout": 2.0,
+        "min_movement_threshold": 60,
+        "movement_cooldown": 1.2,
+        "position_tolerance": 35,
+        "camera_delay": 0.8,
+        "movement_prediction": true,
+        "min_confidence": 0.65,
+        "max_position_jump": 180,
+        "stability_frames": 2,
+        "fast_speed": 0.7,
+        "normal_speed": 0.4,
+        "precise_speed": 0.15,
+        "auto_zoom": true,
+        "min_zoom": 0.1,
+        "max_zoom": 0.9,
+        "target_object_ratio": 0.25,
+        "movement_smoothing": true,
+        "return_to_center_timeout": 45.0,
+        "max_tracking_distance": 400
+      },
+      
+      "preset_positions": {
+        "home": {
+          "pan": 0.0,
+          "tilt": 0.0,
+          "zoom": 0.5,
+          "description": "Posición central por defecto"
+        },
+        "harbor_view": {
+          "pan": 0.3,
+          "tilt": -0.2,
+          "zoom": 0.7,
+          "description": "Vista del puerto y muelles"
+        },
+        "open_sea": {
+          "pan": -0.4,
+          "tilt": 0.1,
+          "zoom": 0.3,
+          "description": "Vista hacia mar abierto"
+        },
+        "entry_channel": {
+          "pan": 0.6,
+          "tilt": -0.1,
+          "zoom": 0.8,
+          "description": "Canal de entrada al puerto"
+        }
+      },
+      
+      "schedule": {
+        "auto_tracking_hours": {
+          "start": "06:00",
+          "end": "22:00"
+        },
+        "night_mode": {
+          "enabled": true,
+          "start": "22:00",
+          "end": "06:00",
+          "config_overrides": {
+            "min_confidence": 0.7,
+            "confirmation_frames": 4,
+            "movement_cooldown": 2.0
+          }
+        }
+      }
+    },
+    
+    {
+      "id": "ptz_secondary",
+      "ip": "19.10.10.218",
+      "puerto": 80,
+      "usuario": "admin",
+      "contrasena": "admin123",
+      "nombre": "PTZ Secundaria",
+      "tipo": "ptz",
+      "modelo": "Hikvision PTZ",
+      "ubicacion": "Muelle Este",
+      "zona_cobertura": "Canal de Entrada",
+      "descripcion": "Cámara PTZ secundaria para canal de entrada y muelle este",
+      "activa": false,
+      "prioridad": 2,
+      
+      "config_personalizada": {
+        "confirmation_frames": 4,
+        "confirmation_timeout": 2.5,
+        "min_movement_threshold": 80,
+        "movement_cooldown": 1.5,
+        "position_tolerance": 40,
+        "camera_delay": 1.0,
+        "movement_prediction": true,
+        "min_confidence": 0.7,
+        "max_position_jump": 200,
+        "stability_frames": 3,
+        "fast_speed": 0.6,
+        "normal_speed": 0.3,
+        "precise_speed": 0.1,
+        "auto_zoom": false,
+        "min_zoom": 0.2,
+        "max_zoom": 0.8,
+        "target_object_ratio": 0.3,
+        "movement_smoothing": true,
+        "return_to_center_timeout": 60.0,
+        "max_tracking_distance": 500
+      },
+      
+      "preset_positions": {
+        "home": {
+          "pan": 0.0,
+          "tilt": 0.0,
+          "zoom": 0.4,
+          "description": "Posición central del canal"
+        },
+        "dock_east": {
+          "pan": -0.5,
+          "tilt": -0.3,
+          "zoom": 0.6,
+          "description": "Vista del muelle este"
+        },
+        "channel_entry": {
+          "pan": 0.0,
+          "tilt": 0.2,
+          "zoom": 0.8,
+          "description": "Entrada del canal"
+        },
+        "patrol_wide": {
+          "pan": 0.0,
+          "tilt": 0.0,
+          "zoom": 0.2,
+          "description": "Vista amplia de patrullaje"
+        }
+      }
+    },
+    
+    {
+      "id": "ptz_backup",
+      "ip": "19.10.10.219",
+      "puerto": 8080,
+      "usuario": "operator",
+      "contrasena": "ptz2024",
+      "nombre": "PTZ Respaldo",
+      "tipo": "ptz",
+      "modelo": "Dahua PTZ",
+      "ubicacion": "Torre Central",
+      "zona_cobertura": "Vista General",
+      "descripcion": "Cámara PTZ de respaldo con vista general del área",
+      "activa": false,
+      "prioridad": 3,
+      
+      "config_personalizada": {
+        "confirmation_frames": 2,
+        "confirmation_timeout": 1.8,
+        "min_movement_threshold": 50,
+        "movement_cooldown": 1.0,
+        "position_tolerance": 30,
+        "camera_delay": 0.6,
+        "movement_prediction": false,
+        "min_confidence": 0.6,
+        "max_position_jump": 150,
+        "stability_frames": 2,
+        "fast_speed": 0.8,
+        "normal_speed": 0.5,
+        "precise_speed": 0.2,
+        "auto_zoom": true,
+        "min_zoom": 0.1,
+        "max_zoom": 1.0,
+        "target_object_ratio": 0.2,
+        "movement_smoothing": false,
+        "return_to_center_timeout": 30.0,
+        "max_tracking_distance": 600
+      },
+      
+              "preset_positions": {
+        "home": {
+          "pan": 0.0,
+          "tilt": 0.0,
+          "zoom": 0.3,
+          "description": "Vista general desde torre"
+        },
+        "overview_north": {
+          "pan": 0.0,
+          "tilt": 0.4,
+          "zoom": 0.4,
+          "description": "Vista general norte"
+        },
+        "overview_south": {
+          "pan": 0.0,
+          "tilt": -0.4,
+          "zoom": 0.4,
+          "description": "Vista general sur"
+        },
+        "patrol_360": {
+          "pan": 0.0,
+          "tilt": 0.0,
+          "zoom": 0.2,
+          "description": "Modo patrullaje 360°"
+        }
+      }
+    }
+  ],
+  
+  "camera_groups": {
+    "primary_tracking": {
+      "cameras": ["ptz_main"],
+      "description": "Grupo principal de seguimiento",
+      "auto_failover": true,
+      "backup_cameras": ["ptz_secondary"]
+    },
+    "harbor_coverage": {
+      "cameras": ["ptz_main", "ptz_secondary"],
+      "description": "Cobertura completa del puerto",
+      "coordinate_tracking": true
+    },
+    "all_cameras": {
+      "cameras": ["ptz_main", "ptz_secondary", "ptz_backup"],
+      "description": "Todas las cámaras PTZ disponibles"
+    }
+  },
+  
+  "tracking_zones": {
+    "zone_north": {
+      "cameras": ["ptz_main"],
+      "boundaries": {
+        "min_x": 0,
+        "min_y": 0,
+        "max_x": 1920,
+        "max_y": 540
+      },
+      "priority": "high",
+      "auto_switch": true
+    },
+    "zone_south": {
+      "cameras": ["ptz_secondary"],
+      "boundaries": {
+        "min_x": 0,
+        "min_y": 540,
+        "max_x": 1920,
+        "max_y": 1080
+      },
+      "priority": "medium",
+      "auto_switch": true
+    },
+    "zone_overview": {
+      "cameras": ["ptz_backup"],
+      "boundaries": {
+        "min_x": 0,
+        "min_y": 0,
+        "max_x": 1920,
+        "max_y": 1080
+      },
+      "priority": "low",
+      "auto_switch": false
+    }
+  },
+  
+  "alert_settings": {
+    "email_notifications": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "alerts@company.com",
+      "password": "app_password",
+      "recipients": ["operator@company.com", "supervisor@company.com"]
+    },
+    "webhook_notifications": {
+      "enabled": false,
+      "url": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL",
+      "events": ["camera_disconnected", "tracking_failed", "high_error_rate"]
+    },
+    "local_alerts": {
+      "log_level": "WARNING",
+      "max_error_rate": 0.1,
+      "connection_timeout_alert": 30,
+      "tracking_failure_threshold": 5
+    }
+  },
+  
+  "integration_settings": {
+    "grilla_widget": {
+      "enabled": true,
+      "auto_register": true,
+      "detection_format": "bbox",
+      "frame_size_detection": true
+    },
+    "yolo_integration": {
+      "enabled": true,
+      "confidence_threshold": 0.5,
+      "class_filter": [0, 8],
+      "nms_threshold": 0.45
+    },
+    "tracking_integration": {
+      "enabled": true,
+      "track_id_support": true,
+      "multi_object_support": true
+    }
+  },
+  
+  "maintenance": {
+    "auto_calibration": {
+      "enabled": false,
+      "schedule": "weekly",
+      "day": "sunday",
+      "time": "02:00"
+    },
+    "position_backup": {
+      "enabled": true,
+      "interval_hours": 24,
+      "backup_file": "ptz_positions_backup.json"
+    },
+    "log_rotation": {
+      "enabled": true,
+      "max_size_mb": 100,
+      "keep_days": 30,
+      "compress_old": true
+    },
+    "health_monitoring": {
+      "enabled": true,
+      "check_interval": 300,
+      "auto_restart_on_failure": true,
+      "max_restart_attempts": 3
+    }
+  },
+  
+  "advanced_features": {
+    "coordinate_prediction": {
+      "enabled": true,
+      "algorithm": "linear_extrapolation",
+      "max_prediction_time": 2.0
+    },
+    "smart_zoom": {
+      "enabled": true,
+      "algorithm": "object_size_adaptive",
+      "min_object_ratio": 0.1,
+      "max_object_ratio": 0.4
+    },
+    "multi_target_handling": {
+      "enabled": true,
+      "max_targets": 3,
+      "priority_algorithm": "confidence_weighted",
+      "switch_strategy": "round_robin"
+    },
+    "weather_compensation": {
+      "enabled": false,
+      "wind_compensation": true,
+      "visibility_adjustment": true,
+      "weather_api_key": "your_weather_api_key"
+    }
+  },
+  
+  "debug_settings": {
+    "verbose_logging": false,
+    "movement_debug": false,
+    "coordinate_debug": false,
+    "performance_monitoring": true,
+    "statistics_collection": true,
+    "error_stack_traces": true,
+    "network_diagnostics": false
+  },
+  
+  "backup_configuration": {
+    "config_backup": {
+      "enabled": true,
+      "backup_interval_hours": 24,
+      "keep_backups": 7,
+      "backup_directory": "config_backups/"
+    },
+    "auto_export": {
+      "enabled": false,
+      "export_interval_hours": 168,
+      "export_format": "json",
+      "include_statistics": true
+    }
+  }
+}
