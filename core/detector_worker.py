@@ -6,6 +6,7 @@ from core.advanced_tracker import AdvancedTracker
 # ELIMINADA: from gui.image_saver import ImageSaverThread  # ← Esta línea causaba el círculo
 import os
 from pathlib import Path
+import torch
 
 logger = get_logger(__name__)
 
@@ -86,6 +87,11 @@ class DetectorWorker(QThread):
                 self.model = YOLO(model_path_str)
                 try:
                     self.model.to(self.device)
+                    if self.device.startswith("cuda") and torch.cuda.is_available():
+                        try:
+                            self.model.half()
+                        except Exception as e:
+                            logger.warning("%s: model.half() failed on %s: %s", self.objectName(), self.device, e)
                 except Exception:
                     logger.warning("%s: model.to(%s) failed; relying on predict device parameter", self.objectName(), self.device)
                 yolo_model_cache[model_path_str] = self.model
