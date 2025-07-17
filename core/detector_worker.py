@@ -49,7 +49,8 @@ def iou(boxA, boxB):
 class DetectorWorker(QThread):
     result_ready = pyqtSignal(list, str, int)
 
-    def __init__(self, model_key="Personas", parent=None, frame_interval=1, confidence=0.5, imgsz=640, device=None, track=True, lost_ttl=5):
+    def __init__(self, model_key="Personas", parent=None, frame_interval=1, confidence=0.5,
+                 imgsz=640, device=None, track=True, lost_ttl=5, verbose_logging=False):
         super().__init__(parent)
         self.model_key = model_key
         if device is None:
@@ -104,6 +105,7 @@ class DetectorWorker(QThread):
         self.imgsz = imgsz
         self.track = track
         self.lost_ttl = lost_ttl
+        self.verbose_logging = verbose_logging
         logger.debug(
             "%s: Initialized with model_key=%s path=%s classes=%s conf=%s imgsz=%s track=%s lost_ttl=%s",
             self.objectName(),
@@ -148,6 +150,7 @@ class DetectorWorker(QThread):
             return
 
         logger.info("%s: Iniciando bucle de detección", self.objectName())
+        log = logger.info if self.verbose_logging else logger.debug
         
         while self.running:
             if self.frame is not None:
@@ -158,7 +161,7 @@ class DetectorWorker(QThread):
                 self.frame = None
                 self.frame_id = None
                 
-                logger.info(f"%s: Frame dimensions: {frame_w}x{frame_h}", self.objectName())
+                log(f"%s: Frame dimensions: {frame_w}x{frame_h}", self.objectName())
                 
                 try:
                     logger.debug("%s: Calling model.predict classes=%s conf=%s imgsz=%s", 
@@ -176,8 +179,8 @@ class DetectorWorker(QThread):
                         show=False
                     )[0]
                     
-                    logger.info("%s: model.predict successful. Raw boxes count %s", 
-                               self.objectName(), len(yolo_results.boxes) if yolo_results.boxes is not None else 0)
+                    log("%s: model.predict successful. Raw boxes count %s",
+                        self.objectName(), len(yolo_results.boxes) if yolo_results.boxes is not None else 0)
                     
                 except Exception as e:
                     logger.error("%s: error durante model.predict: %s", self.objectName(), e)
@@ -209,8 +212,8 @@ class DetectorWorker(QThread):
                             conf = float(r.conf[0])
                             
                             # Debug: Imprimir coordenadas originales vs procesadas
-                            logger.info(f"%s: Detection {i}: original=({x1_orig:.1f},{y1_orig:.1f},{x2_orig:.1f},{y2_orig:.1f}) -> final=({x1},{y1},{x2},{y2}) cls={cls} conf={conf:.3f}", 
-                                       self.objectName())
+                            log(f"%s: Detection {i}: original=({x1_orig:.1f},{y1_orig:.1f},{x2_orig:.1f},{y2_orig:.1f}) -> final=({x1},{y1},{x2},{y2}) cls={cls} conf={conf:.3f}",
+                                self.objectName())
                             
                             # Aplicar remapeo de clases si existe
                             remap_dict = CLASS_REMAP.get(self.model_key)
@@ -218,7 +221,7 @@ class DetectorWorker(QThread):
                                 original_cls = cls
                                 cls = remap_dict.get(cls, cls)
                                 if original_cls != cls:
-                                    logger.info(f"%s: Class remapped: {original_cls} -> {cls}", self.objectName())
+                                    log(f"%s: Class remapped: {original_cls} -> {cls}", self.objectName())
                             
                             current_detections.append({
                                 'bbox': [x1, y1, x2, y2], 
@@ -230,16 +233,16 @@ class DetectorWorker(QThread):
                             logger.error("%s: Error procesando detección individual %d: %s", self.objectName(), i, e)
                             continue
 
-                logger.info("%s: Procesadas %d detecciones válidas de %d totales", 
-                           self.objectName(), len(current_detections), 
-                           len(yolo_results.boxes) if yolo_results.boxes is not None else 0)
+                log("%s: Procesadas %d detecciones válidas de %d totales",
+                    self.objectName(), len(current_detections),
+                    len(yolo_results.boxes) if yolo_results.boxes is not None else 0)
 
                 # Aplicar tracking si está habilitado
                 if self.track and current_detections:
                     try:
                         tracks = self.tracker.update(current_detections, frame=current_frame_to_process)
-                        logger.info("%s: Tracker devolvió %d tracks de %d detecciones", 
-                                   self.objectName(), len(tracks), len(current_detections))
+                        log("%s: Tracker devolvió %d tracks de %d detecciones",
+                            self.objectName(), len(tracks), len(current_detections))
                         
                         output_for_signal = []
                         for j, trk in enumerate(tracks):
@@ -267,8 +270,8 @@ class DetectorWorker(QThread):
                             
                             output_for_signal.append(track_data)
                             
-                            logger.info(f"%s: Track {j}: ID={trk['id']} bbox=({x1},{y1},{x2},{y2}) cls={trk['cls']} conf={trk['conf']:.3f}", 
-                                       self.objectName())
+                            log(f"%s: Track {j}: ID={trk['id']} bbox=({x1},{y1},{x2},{y2}) cls={trk['cls']} conf={trk['conf']:.3f}",
+                                self.objectName())
                             
                     except Exception as e:
                         logger.error("%s: Error en tracker: %s", self.objectName(), e)
@@ -282,7 +285,7 @@ class DetectorWorker(QThread):
                             }
                             for i, d in enumerate(current_detections)
                         ]
-                        logger.info(f"%s: Fallback - usando {len(output_for_signal)} detecciones sin tracking", self.objectName())
+                        log(f"%s: Fallback - usando {len(output_for_signal)} detecciones sin tracking", self.objectName())
                 else:
                     # Sin tracking: emitir detecciones directamente
                     output_for_signal = [
@@ -294,16 +297,16 @@ class DetectorWorker(QThread):
                         }
                         for i, d in enumerate(current_detections)
                     ]
-                    logger.info(f"%s: Sin tracking - emitiendo {len(output_for_signal)} detecciones directas", self.objectName())
+                    log(f"%s: Sin tracking - emitiendo {len(output_for_signal)} detecciones directas", self.objectName())
 
-                logger.info("%s: Emitiendo %d detecciones finales para frame %d", 
-                           self.objectName(), len(output_for_signal), current_frame_id)
+                log("%s: Emitiendo %d detecciones finales para frame %d",
+                    self.objectName(), len(output_for_signal), current_frame_id)
                 
                 # Debug final: Imprimir todas las detecciones que se van a emitir
                 for k, det in enumerate(output_for_signal):
                     bbox = det['bbox']
-                    logger.info(f"%s: FINAL Detection {k}: ID={det['id']} bbox={bbox} cls={det['cls']} conf={det['conf']:.3f}", 
-                               self.objectName())
+                    log(f"%s: FINAL Detection {k}: ID={det['id']} bbox={bbox} cls={det['cls']} conf={det['conf']:.3f}",
+                        self.objectName())
                 
                 # Emitir resultados
                 self.result_ready.emit(output_for_signal, self.model_key, current_frame_id)
