@@ -1,0 +1,12 @@
+{
+  "selected_camera_index": 0,
+  "dead_zone_x": 5,
+  "dead_zone_y": 5,
+  "max_speed": 30,
+  "smoothing": 70,
+  "test_position": {
+    "x": 640,
+    "y": 360
+  },
+  "timestamp": 1752502566.1001716
+}

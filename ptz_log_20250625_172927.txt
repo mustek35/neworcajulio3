@@ -1,0 +1,83 @@
+[17:12:06] 📹 Cámara seleccionada: Sin nombre (19.10.10.217)
+[17:12:06] 📁 Configuración UI cargada
+[17:12:06] 🎯 Sistema PTZ Multi-Objeto inicializado
+[17:12:06] 🌉 Bridge de detecciones configurado
+[17:12:06] 🚀 Iniciando sistema de seguimiento PTZ...
+[17:12:06] 🎯 Modo de seguimiento: Objeto Individual
+[17:12:06] ❌ Error creando sistema de integración: PTZTrackingSystemEnhanced.start_session() got an unexpected keyword argument 'config'
+[17:12:06] ✅ Tracker PTZ básico creado
+[17:12:06] ❌ Error conectando con cámara PTZ
+[17:12:22] 🔍 Tracker identificado: PTZCameraONVIF
+[17:12:22] 🔍 Métodos disponibles: absolute_move, connect, continuous_move, get_status, goto_preset, start_tracking, stop, stop_tracking...
+[17:12:22] ✅ Usando seguimiento básico PTZ manual
+[17:12:22] 📊 Seguimiento activo - detecciones procesadas: 1
+[17:12:30] ⚠️ El seguimiento ya está activo
+[17:12:39] 📊 Seguimiento activo - detecciones procesadas: 51
+[17:12:51] 📊 Seguimiento activo - detecciones procesadas: 101
+[17:13:07] 📊 Seguimiento activo - detecciones procesadas: 151
+[17:13:20] 📊 Seguimiento activo - detecciones procesadas: 201
+[17:13:33] 📊 Seguimiento activo - detecciones procesadas: 251
+[17:13:41] 📊 Seguimiento activo - detecciones procesadas: 301
+[17:13:52] 📊 Seguimiento activo - detecciones procesadas: 351
+[17:14:06] 📊 Seguimiento activo - detecciones procesadas: 401
+[17:14:56] 📊 Seguimiento activo - detecciones procesadas: 451
+[17:15:07] 📊 Seguimiento activo - detecciones procesadas: 501
+[17:15:17] 📊 Seguimiento activo - detecciones procesadas: 551
+[17:15:22] 📊 Seguimiento activo - detecciones procesadas: 601
+[17:15:28] 📊 Seguimiento activo - detecciones procesadas: 651
+[17:15:39] 📊 Seguimiento activo - detecciones procesadas: 701
+[17:15:45] 📊 Seguimiento activo - detecciones procesadas: 751
+[17:15:56] 📊 Seguimiento activo - detecciones procesadas: 801
+[17:16:04] 📊 Seguimiento activo - detecciones procesadas: 851
+[17:16:09] 📊 Seguimiento activo - detecciones procesadas: 901
+[17:16:20] 📊 Seguimiento activo - detecciones procesadas: 951
+[17:16:26] 📊 Seguimiento activo - detecciones procesadas: 1001
+[17:16:36] 📊 Seguimiento activo - detecciones procesadas: 1051
+[17:16:48] 📊 Seguimiento activo - detecciones procesadas: 1101
+[17:16:54] 📊 Seguimiento activo - detecciones procesadas: 1151
+[17:17:05] 📊 Seguimiento activo - detecciones procesadas: 1201
+[17:17:13] 📊 Seguimiento activo - detecciones procesadas: 1251
+[17:17:23] 📊 Seguimiento activo - detecciones procesadas: 1301
+[17:17:28] 📊 Seguimiento activo - detecciones procesadas: 1351
+[17:17:39] 📊 Seguimiento activo - detecciones procesadas: 1401
+[17:17:44] 📊 Seguimiento activo - detecciones procesadas: 1451
+[17:17:55] 📊 Seguimiento activo - detecciones procesadas: 1501
+[17:18:06] 📊 Seguimiento activo - detecciones procesadas: 1551
+[17:18:16] 📊 Seguimiento activo - detecciones procesadas: 1601
+[17:18:20] ⚠️ El seguimiento ya está activo
+[17:19:55] 📊 Seguimiento activo - detecciones procesadas: 2301
+[17:20:05] 📊 Seguimiento activo - detecciones procesadas: 2351
+[17:20:17] 📊 Seguimiento activo - detecciones procesadas: 2401
+[17:20:28] 📊 Seguimiento activo - detecciones procesadas: 2451
+[17:20:40] 📊 Seguimiento activo - detecciones procesadas: 2501
+[17:20:51] 📊 Seguimiento activo - detecciones procesadas: 2551
+[17:21:03] 📊 Seguimiento activo - detecciones procesadas: 2601
+[17:21:15] 📊 Seguimiento activo - detecciones procesadas: 2651
+[17:21:27] 📊 Seguimiento activo - detecciones procesadas: 2701
+[17:21:38] 📊 Seguimiento activo - detecciones procesadas: 2751
+[17:21:50] 📊 Seguimiento activo - detecciones procesadas: 2801
+[17:22:01] 📊 Seguimiento activo - detecciones procesadas: 2851
+[17:22:12] 📊 Seguimiento activo - detecciones procesadas: 2901
+[17:22:25] 📊 Seguimiento activo - detecciones procesadas: 2951
+[17:22:36] 📊 Seguimiento activo - detecciones procesadas: 3001
+[17:22:47] 📊 Seguimiento activo - detecciones procesadas: 3051
+[17:22:54] 📊 Seguimiento activo - detecciones procesadas: 3101
+[17:23:05] 📊 Seguimiento activo - detecciones procesadas: 3151
+[17:23:19] 📊 Seguimiento activo - detecciones procesadas: 3201
+[17:25:38] 📊 Seguimiento activo - detecciones procesadas: 3251
+[17:25:46] 📊 Seguimiento activo - detecciones procesadas: 3301
+[17:25:52] 📊 Seguimiento activo - detecciones procesadas: 3351
+[17:25:57] 📊 Seguimiento activo - detecciones procesadas: 3401
+[17:26:02] 📊 Seguimiento activo - detecciones procesadas: 3451
+[17:26:07] 📊 Seguimiento activo - detecciones procesadas: 3501
+[17:26:12] 📊 Seguimiento activo - detecciones procesadas: 3551
+[17:26:23] 📊 Seguimiento activo - detecciones procesadas: 3601
+[17:26:38] 📊 Seguimiento activo - detecciones procesadas: 3651
+[17:26:46] 📊 Seguimiento activo - detecciones procesadas: 3701
+[17:26:54] 📊 Seguimiento activo - detecciones procesadas: 3751
+[17:27:05] 📊 Seguimiento activo - detecciones procesadas: 3801
+[17:27:13] 📊 Seguimiento activo - detecciones procesadas: 3851
+[17:27:20] 📊 Seguimiento activo - detecciones procesadas: 3901
+[17:27:29] 📊 Seguimiento activo - detecciones procesadas: 3951
+[17:27:38] 📊 Seguimiento activo - detecciones procesadas: 4001
+[17:27:46] 📊 Seguimiento activo - detecciones procesadas: 4051

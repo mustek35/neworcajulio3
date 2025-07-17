@@ -1,0 +1,11 @@
+{
+    "move_duration": 300,
+    "auto_stop": false,
+    "preset_timeout": 5,
+    "save_preset_names": true,
+    "connection_timeout": 5,
+    "retry_attempts": 3,
+    "default_speed": 5,
+    "camera_ip": "19.10.10.217",
+    "saved_at": "2025-07-11T13:13:29.259596"
+}

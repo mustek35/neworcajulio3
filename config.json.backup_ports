@@ -1,0 +1,295 @@
+{
+    "camaras": [
+        {
+            "ip": "19.10.10.217",
+            "usuario": "root",
+            "contrasena": "@Remoto753524",
+            "tipo": "ptz",
+            "rtsp": "rtsp://root:%40Remoto753524@19.10.10.217:554/media/video1",
+            "modelo": "Barcos",
+            "modelos": [
+                "Barcos"
+            ],
+            "confianza": 0.15,
+            "intervalo": 60,
+            "imgsz": 1280,
+            "device": "cuda",
+            "resolucion": "main",
+            "umbral": 0.34,
+            "guardar_capturas": true,
+            "modo_centinela": false,
+            "lost_ttl": 5,
+            "fps_config": {
+                "visual_fps": 30,
+                "detection_fps": 8,
+                "ui_update_fps": 15,
+                "adaptive_fps": true
+            },
+            "discarded_grid_cells": [],
+            "cell_presets": {},
+            "cell_ptz_map": {}
+        },
+        {
+            "ip": "19.10.10.220",
+            "usuario": "orca",
+            "contrasena": "@Remoto753524",
+            "tipo": "ptz",
+            "device": "cuda",
+            "fps_config": {
+                "visual_fps": 30,
+                "detection_fps": 8,
+                "ui_update_fps": 15,
+                "adaptive_fps": true
+            },
+            "rtsp": "rtsp://orca:%40Remoto753524@19.10.10.220:554/media/video1",
+            "modelos": [
+                "Barcos"
+            ],
+            "modelo": "Barcos",
+            "confianza": 0.25,
+            "intervalo": 60,
+            "imgsz": 1920,
+            "resolucion": "main",
+            "umbral": 0.5,
+            "guardar_capturas": false,
+            "modo_centinela": false,
+            "cell_presets": {},
+            "cell_ptz_map": {
+                "14_6": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "14_7": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "13_6": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "13_7": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "14_1": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "15_1": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "14_0": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "15_0": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "10_12": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "10_13": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "10_15": {
+                    "ip": "19.10.10.217",
+                    "preset": "2"
+                },
+                "10_16": {
+                    "ip": "19.10.10.217",
+                    "preset": "3"
+                },
+                "10_17": {
+                    "ip": "19.10.10.217",
+                    "preset": "3"
+                },
+                "10_18": {
+                    "ip": "19.10.10.217",
+                    "preset": "4"
+                },
+                "10_19": {
+                    "ip": "19.10.10.217",
+                    "preset": "5"
+                },
+                "11_19": {
+                    "ip": "19.10.10.217",
+                    "preset": "6"
+                },
+                "11_18": {
+                    "ip": "19.10.10.217",
+                    "preset": "7"
+                },
+                "11_17": {
+                    "ip": "19.10.10.217",
+                    "preset": "8"
+                },
+                "9_13": {
+                    "ip": "19.10.10.217",
+                    "preset": "2"
+                },
+                "11_16": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_14": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_13": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_15": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "12_13": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "13_13": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "12_12": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "13_12": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "12_11": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "13_11": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_10": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "12_10": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "13_10": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_12": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "11_11": {
+                    "ip": "19.10.10.217",
+                    "preset": "9"
+                },
+                "9_14": {
+                    "ip": "19.10.10.217",
+                    "preset": "2"
+                },
+                "11_9": {
+                    "ip": "19.10.10.217",
+                    "preset": "10"
+                },
+                "11_2": {
+                    "ip": "19.10.10.217",
+                    "preset": "13"
+                },
+                "11_1": {
+                    "ip": "19.10.10.217",
+                    "preset": "14"
+                },
+                "11_0": {
+                    "ip": "19.10.10.217",
+                    "preset": "15"
+                },
+                "11_5": {
+                    "ip": "19.10.10.217",
+                    "preset": "11"
+                },
+                "11_6": {
+                    "ip": "19.10.10.217",
+                    "preset": "11"
+                },
+                "11_7": {
+                    "ip": "19.10.10.217",
+                    "preset": "10"
+                },
+                "11_8": {
+                    "ip": "19.10.10.217",
+                    "preset": "10"
+                },
+                "9_15": {
+                    "ip": "19.10.10.217",
+                    "preset": "3"
+                },
+                "10_20": {
+                    "ip": "19.10.10.217",
+                    "preset": "5"
+                },
+                "10_21": {
+                    "ip": "19.10.10.217",
+                    "preset": "5"
+                },
+                "11_20": {
+                    "ip": "19.10.10.217",
+                    "preset": "6"
+                },
+                "11_21": {
+                    "ip": "19.10.10.217",
+                    "preset": "6"
+                },
+                "9_12": {
+                    "ip": "19.10.10.217",
+                    "preset": "1"
+                },
+                "11_3": {
+                    "ip": "19.10.10.217",
+                    "preset": "12"
+                },
+                "11_4": {
+                    "ip": "19.10.10.217",
+                    "preset": "12"
+                }
+            },
+            "discarded_grid_cells": []
+        }
+    ],
+    "configuracion": {
+        "resolucion": "main",
+        "umbral": 0.5,
+        "guardar_capturas": false,
+        "modo_centinela": false,
+        "fps_global": {
+            "visual_fps": 25,
+            "detection_fps": 8,
+            "ui_update_fps": 15,
+            "adaptive_fps": true
+        }
+    },
+    "adaptive_sampling": {
+        "base_interval": 8,
+        "min_interval": 3,
+        "max_interval": 25,
+        "adaptation_rate": 0.15,
+        "detection_weight": 0.17,
+        "movement_weight": 0.83,
+        "high_activity_threshold": 0.15,
+        "low_activity_threshold": 0.05,
+        "history_window": 30,
+        "stabilization_time": 50,
+        "min_detections_for_adaptation": 1,
+        "confidence_threshold": 0.1,
+        "enable_burst_mode": true,
+        "burst_duration": 10,
+        "enable_smoothing": true
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "camera_index": 0,
+  "mode": "Objeto Individual",
+  "zoom": {
+    "auto_zoom": true,
+    "zoom_speed": 5,
+    "target_size": 12
+  },
+  "multi_object": {
+    "alternating": true,
+    "primary_time": 5.0,
+    "secondary_time": 3.0,
+    "max_objects": 3,
+    "min_confidence": 30
+  }
+}

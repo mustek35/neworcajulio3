@@ -1,0 +1,12 @@
+[09:11:18] 📹 Cámara seleccionada: Sin nombre (19.10.10.217)
+[09:11:18] 📁 Configuración UI cargada
+[09:11:18] 🎯 Sistema PTZ Multi-Objeto inicializado
+[09:11:18] 🌉 Bridge de detecciones configurado
+[09:11:18] 🚀 Iniciando sistema de seguimiento PTZ...
+[09:11:18] 🎯 Modo de seguimiento: Multi-Objeto Paralelo
+[09:11:18] ✅ Tracker multi-objeto creado
+[09:11:18] ❌ Error iniciando seguimiento
+[09:11:28] 🚀 Iniciando sistema de seguimiento PTZ...
+[09:11:28] 🎯 Modo de seguimiento: Multi-Objeto Paralelo
+[09:11:28] ✅ Tracker multi-objeto creado
+[09:11:28] ❌ Error iniciando seguimiento
