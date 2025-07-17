@@ -590,7 +590,12 @@ class GrillaWidget(QWidget):
                 self.registrar_log(f"Error cargando configuración: {e}")
         
         # MODIFICACIÓN: Inicializar GestorAlertas optimizado
-        self.alertas = GestorAlertas(cam_id=str(uuid.uuid4())[:8], filas=self.filas, columnas=self.columnas)
+        self.alertas = GestorAlertas(
+            cam_id=str(uuid.uuid4())[:8],
+            filas=self.filas,
+            columnas=self.columnas,
+            discarded_cells=self.discarded_cells,
+        )
         
         # Configurar el sistema optimizado de capturas
         if hasattr(self.alertas, 'configurar_capturas'):
@@ -759,10 +764,11 @@ class GrillaWidget(QWidget):
 
             # Procesar con el sistema optimizado
             self.alertas.procesar_detecciones(
-                detecciones_filtradas, 
+                detecciones_filtradas,
                 self.last_frame,
                 self.registrar_log,
-                self.cam_data
+                self.cam_data,
+                discarded_cells=self.discarded_cells
             )
             self.temporal = self.alertas.temporal
         
