@@ -25,7 +25,7 @@ except ImportError as e:
 DEBUG_LOGS = False  # Cambiar a True solo para debugging
 
 class GestorAlertas:
-    def __init__(self, cam_id, filas, columnas):
+    def __init__(self, cam_id, filas, columnas, discarded_cells=None):
         self.cam_id = cam_id
         self.filas = filas
         self.columnas = columnas
@@ -37,6 +37,7 @@ class GestorAlertas:
         self.temporal = set()
         self.hilos_guardado = []
         self.ultimas_posiciones = {}
+        self.discarded_cells = discarded_cells if discarded_cells is not None else set()
         
         # VARIABLES PARA CONTROL OPTIMIZADO DE CAPTURAS
         self.track_capture_history = {}  # track_id -> {"captured": bool, "best_conf": float, "last_capture_time": datetime}
@@ -44,7 +45,9 @@ class GestorAlertas:
         self.min_time_between_captures = 30  # Segundos mínimos entre capturas del mismo track
         self.track_confidence_buffer = defaultdict(list)  # track_id -> [conf1, conf2, ...] para promedio
 
-    def procesar_detecciones(self, boxes, last_frame, log_callback, cam_data):
+    def procesar_detecciones(self, boxes, last_frame, log_callback, cam_data, discarded_cells=None):
+        if discarded_cells is not None:
+            self.discarded_cells = discarded_cells
         if datetime.now() - self.ultimo_reset > timedelta(minutes=1):
             self.capturas_realizadas = 0
             self.ultimo_reset = datetime.now()
@@ -209,6 +212,10 @@ class GestorAlertas:
             "last_capture_time": now
         }
 
+    def actualizar_discarded_cells(self, discarded_cells):
+        """Actualizar el conjunto de celdas descartadas"""
+        self.discarded_cells = discarded_cells if discarded_cells is not None else set()
+
     def _guardar_optimizado(self, boxes, frame, log_callback, tipo, cam_data):
         """
         Versión optimizada del guardado que evita capturas repetitivas
@@ -232,13 +239,24 @@ class GestorAlertas:
         
         for box_data in boxes:
             if len(box_data) >= 7:  # Con track_id
-                x1, y1, x2, y2, cls, cx, cy, track_id, confidence = box_data[:9] 
+                x1, y1, x2, y2, cls, cx, cy, track_id, confidence = box_data[:9]
             else:  # Sin track_id (fallback)
                 x1, y1, x2, y2, cls, cx, cy = box_data
                 track_id = f"unknown_{cls}_{cx}_{cy}"  # ID temporal
                 confidence = cam_data.get("confianza", 0.5)  # Confianza por defecto
             
             if frame is not None:
+                # Calcular celda del track y verificar si está descartada
+                h, w, _ = frame.shape
+                row = int(cy / h * self.filas)
+                col = int(cx / w * self.columnas)
+                row = max(0, min(row, self.filas - 1))
+                col = max(0, min(col, self.columnas - 1))
+                if (row, col) in self.discarded_cells:
+                    if DEBUG_LOGS:
+                        log_callback(f"🔶 Track {track_id}: Celda descartada ({row}, {col})")
+                    continue
+
                 # Verificar movimiento (criterio existente)
                 if not self._ha_habido_movimiento(cls, cx, cy):
                     if DEBUG_LOGS:

@@ -41,7 +41,8 @@ class AnalyticsProcessor(QObject):
                     detections,
                     frame,
                     registrar_log_callback, # Use the provided callback
-                    cam_data
+                    cam_data,
+                    discarded_cells
                 )
                 # Emit a signal with some result if necessary
                 self.processing_finished.emit({"status": "success", "processed_alerts": gestor_alertas_instance.temporal})
