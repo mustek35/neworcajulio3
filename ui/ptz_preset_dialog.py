@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QListWidgetItem, QCheckBox, QSlider, QTabWidget, QWidget, QFormLayout
 )
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal
+from core.patrol_manager import global_patrol_manager
 from PyQt6.QtGui import QFont
 import json
 import os
@@ -79,7 +80,16 @@ class PTZPresetDialog(QDialog):
         self._setup_ui()
         self._load_presets()
         self._connect_signals()
-        
+
+        # Restaurar estado de patrulla si ya se encuentra activa
+        if global_patrol_manager.is_running():
+            self._patrol_running = True
+            self.btn_start_patrol.setEnabled(False)
+            self.btn_stop_patrol.setEnabled(True)
+        else:
+            self.btn_start_patrol.setEnabled(True)
+            self.btn_stop_patrol.setEnabled(False)
+
         # Verificar conexión inicial
         QTimer.singleShot(1000, self._check_initial_connection)
         
@@ -818,15 +828,21 @@ class PTZPresetDialog(QDialog):
         self._current_patrol_index = 0
         self._patrol_running = True
         self._log("🚶 Iniciando patrulla automática")
-        self._patrol_step()
-        self.patrol_timer.start(self.patrol_interval * 1000)
+
+        global_patrol_manager.start(
+            self.ptz_camera,
+            tokens,
+            self.patrol_interval,
+            log_callback=self._log,
+        )
+
         self.btn_start_patrol.setEnabled(False)
         self.btn_stop_patrol.setEnabled(True)
         self._save_patrol_config()
 
     def stop_patrol(self):
         """Detiene la patrulla automática"""
-        self.patrol_timer.stop()
+        global_patrol_manager.stop()
         self._patrol_running = False
         self.btn_start_patrol.setEnabled(True)
         self.btn_stop_patrol.setEnabled(False)
@@ -834,15 +850,8 @@ class PTZPresetDialog(QDialog):
         self._save_patrol_config()
 
     def _patrol_step(self):
-        if not self._patrol_running or not self._patrol_presets:
-            return
-        preset = self._patrol_presets[self._current_patrol_index]
-        try:
-            self.ptz_camera.goto_preset(str(preset))
-            self._log(f"📍 Patrulla: preset {preset}")
-        except Exception as e:
-            self._log(f"❌ Error yendo a preset {preset}: {e}")
-        self._current_patrol_index = (self._current_patrol_index + 1) % len(self._patrol_presets)
+        """Paso de patrulla gestionado por PatrolManager (sin usar)."""
+        pass
 
     def _load_patrol_config(self):
         """Carga la configuración de patrulla desde config.json"""
@@ -888,7 +897,7 @@ class PTZPresetDialog(QDialog):
     def _on_patrol_interval_changed(self, value):
         self.patrol_interval = int(value)
         if self._patrol_running:
-            self.patrol_timer.start(self.patrol_interval * 1000)
+            global_patrol_manager.interval = self.patrol_interval
         self._save_patrol_config()
             
     def _log(self, message):
