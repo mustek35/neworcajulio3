@@ -837,57 +837,19 @@ class GrillaWidget(QWidget):
         if not should_process_ui:
             return
 
-        image = None
-        numpy_frame = None
-        img_converted = None
+        qimg = self._qimage_from_frame(frame)
+        if qimg is None:
+            return
 
-        if frame.map(QVideoFrame.MapMode.ReadOnly):
-            try:
-                pf = frame.pixelFormat()
-                rgb_formats = set()
-                for name in [
-                    "Format_RGB24", "Format_RGB32", "Format_BGR24", "Format_BGR32",
-                    "Format_RGBX8888", "Format_RGBA8888", "Format_BGRX8888", 
-                    "Format_BGRA8888", "Format_ARGB32",
-                ]:
-                    fmt = getattr(QVideoFrameFormat.PixelFormat, name, None)
-                    if fmt is not None:
-                        rgb_formats.add(fmt)
-
-                if pf in rgb_formats:
-                    img_format = QVideoFrameFormat.imageFormatFromPixelFormat(pf)
-                    if img_format != QImage.Format.Format_Invalid:
-                        qimg = QImage(
-                            frame.bits(),
-                            frame.width(),
-                            frame.height(),
-                            frame.bytesPerLine(),
-                            img_format,
-                        ).copy()
-                        image = qimg
-                        img_converted = qimg.convertToFormat(QImage.Format.Format_RGB888)
-                        ptr = img_converted.constBits()
-                        ptr.setsize(img_converted.width() * img_converted.height() * 3)
-                        numpy_frame = (
-                            np.frombuffer(ptr, dtype=np.uint8)
-                            .reshape((img_converted.height(), img_converted.width(), 3))
-                            .copy()
-                        )
-            finally:
-                frame.unmap()
-
-        if image is None:
-            image = frame.toImage()
-            if image.isNull():
-                return
-            img_converted = image.convertToFormat(QImage.Format.Format_RGB888)
-            ptr = img_converted.constBits()
-            ptr.setsize(img_converted.width() * img_converted.height() * 3)
-            numpy_frame = (
-                np.frombuffer(ptr, dtype=np.uint8)
-                .reshape((img_converted.height(), img_converted.width(), 3))
-                .copy()
-            )
+        img_converted = qimg.convertToFormat(QImage.Format.Format_RGB888)
+        ptr = img_converted.constBits()
+        ptr.setsize(img_converted.width() * img_converted.height() * 3)
+        numpy_frame = (
+            np.frombuffer(ptr, dtype=np.uint8)
+            .reshape((img_converted.height(), img_converted.width(), 3))
+            .copy()
+        )
+        image = qimg
 
         current_frame_width = img_converted.width()
         current_frame_height = img_converted.height()
@@ -916,6 +878,43 @@ class GrillaWidget(QWidget):
 
         self.pixmap = QPixmap.fromImage(img_converted)
         self.request_paint_update()
+
+    def _qimage_from_frame(self, frame: QVideoFrame) -> QImage | None:
+        """Convertir QVideoFrame a QImage usando map() si es posible"""
+        if not frame.map(QVideoFrame.MapMode.ReadOnly):
+            image = frame.toImage()
+            return image if not image.isNull() else None
+
+        try:
+            pf = frame.pixelFormat()
+            rgb_formats = {
+                getattr(QVideoFrameFormat.PixelFormat, name)
+                for name in [
+                    "Format_RGB24",
+                    "Format_RGB32",
+                    "Format_BGR24",
+                    "Format_BGR32",
+                    "Format_RGBX8888",
+                    "Format_RGBA8888",
+                    "Format_BGRX8888",
+                    "Format_BGRA8888",
+                    "Format_ARGB32",
+                ]
+                if hasattr(QVideoFrameFormat.PixelFormat, name)
+            }
+            if pf in rgb_formats:
+                img_format = QVideoFrameFormat.imageFormatFromPixelFormat(pf)
+                if img_format != QImage.Format.Format_Invalid:
+                    return QImage(
+                        frame.bits(),
+                        frame.width(),
+                        frame.height(),
+                        frame.bytesPerLine(),
+                        img_format,
+                    ).copy()
+            return None
+        finally:
+            frame.unmap()
 
     def registrar_log(self, mensaje):
         fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
