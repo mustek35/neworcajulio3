@@ -131,7 +131,7 @@ class AdvancedTracker:
                 if self.lost_counts[tid] <= self.lost_ttl:
                     results.append(self.last_result[tid])
                 else:
-                    logger.info(f"Track {tid}: Removed after {self.lost_counts[tid]} lost frames")
+                    logger.debug(f"Track {tid}: Removed after {self.lost_counts[tid]} lost frames")
                     self.track_history.pop(tid, None)
                     self.track_meta.pop(tid, None)
                     self.moving_flags.pop(tid, None)
@@ -157,7 +157,7 @@ class AdvancedTracker:
                     ghost_tracks.append((str(tid), f"Too far from detections ({min_dist:.0f}px)"))
         
         if ghost_tracks:
-            logger.info(f"Removed {len(ghost_tracks)} ghost tracks: {ghost_tracks}")
+            logger.debug(f"Removed {len(ghost_tracks)} ghost tracks: {ghost_tracks}")
             for tid_str, reason in ghost_tracks:
                 tid = int(tid_str)
                 self.track_history.pop(tid, None)
